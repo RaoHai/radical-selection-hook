@@ -1621,6 +1621,10 @@ void SelectionHook::ProcessMouseEvent(Napi::Env env, Napi::Function function, Mo
 
                 bool isCurrentValidClick = (currentTime - lastMouseDownTime) <= DOUBLE_CLICK_TIME_MS;
                 bool isValidCursor = isLastMouseDownValidCursor || isIBeamCursor([NSCursor currentSystemCursor]);
+                bool isShiftPressed = false;
+                bool isCtrlPressed = false;
+                bool isCmdPressed = false;
+                bool isOptionPressed = false;
 
                 if ((currentTime - lastMouseDownTime) > MAX_DRAG_TIME_MS)
                 {
@@ -1629,12 +1633,8 @@ void SelectionHook::ProcessMouseEvent(Napi::Env env, Napi::Function function, Mo
                 // Check for drag selection
                 else if (distance >= MIN_DRAG_DISTANCE)
                 {
-                    // Only support IBeamCursor for now
-                    if (isValidCursor)
-                    {
-                        shouldDetectSelection = true;
-                        detectionType = SelectionDetectType::Drag;
-                    }
+                    shouldDetectSelection = true;
+                    detectionType = SelectionDetectType::Drag;
                 }
                 // Check for double-click selection
                 else if (isLastValidClick && isCurrentValidClick && distance <= DOUBLE_CLICK_MAX_DISTANCE)
@@ -1663,10 +1663,10 @@ void SelectionHook::ProcessMouseEvent(Napi::Env env, Napi::Function function, Mo
                     if (currentEvent)
                     {
                         CGEventFlags flags = CGEventGetFlags(currentEvent);
-                        bool isShiftPressed = (flags & kCGEventFlagMaskShift) != 0;
-                        bool isCtrlPressed = (flags & kCGEventFlagMaskControl) != 0;
-                        bool isCmdPressed = (flags & kCGEventFlagMaskCommand) != 0;
-                        bool isOptionPressed = (flags & kCGEventFlagMaskAlternate) != 0;
+                        isShiftPressed = (flags & kCGEventFlagMaskShift) != 0;
+                        isCtrlPressed = (flags & kCGEventFlagMaskControl) != 0;
+                        isCmdPressed = (flags & kCGEventFlagMaskCommand) != 0;
+                        isOptionPressed = (flags & kCGEventFlagMaskAlternate) != 0;
 
                         if (isShiftPressed && !isCtrlPressed && !isCmdPressed && !isOptionPressed)
                         {

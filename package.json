@@ -1,11 +1,11 @@
 {
-  "name": "selection-hook",
+  "name": "radical-selection-hook",
   "version": "1.0.13",
   "description": "Text selection monitoring of native Node.js module with N-API across applications",
-  "author": "0xfullex",
+  "author": "RaoHai",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/0xfullex/selection-hook.git"
+    "url": "git+https://github.com/RaoHai/radical-selection-hook.git"
   },
   "main": "index.js",
   "types": "index.d.ts",
